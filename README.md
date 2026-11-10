@@ -42,28 +42,38 @@ eingehalten ist, soweit sich das automatisch prüfen lässt.
 ## Der Ablauf
 
 ```mermaid
+%%{init: {'themeVariables': {'edgeLabelBackground':'#ffffff'}}}%%
 flowchart TB
-    subgraph PH["Ablauf · jeder Kasten führt zur Anleitung"]
+    subgraph WRAP[" "]
         direction LR
-        P0["<b>0 · Einrichten</b><br/>einmalig:<br/>KI-Regeln klären,<br/>Konten, Claude Code,<br/>Repository,<br/>Prüfliste festlegen<br/>🚶 🤖"]
-        P1["<b>1 · Recherche</b><br/>suchen, Treffer notieren,<br/>Volltexte holen<br/>🚶 🤖 💻"]
-        P2["<b>2 · Auswertung</b><br/>jede Arbeit lesen,<br/>Prüfliste durchgehen<br/>🤖 🚶"]
-        P3["<b>3 · Modell</b><br/>eigene Rechnung,<br/>Kernzahlen, Abbildungen<br/>(wahlweise)<br/>🤖 💻 🚶"]
-        P4["<b>4 · Sammeldokumente</b><br/>Ergebnisse je Thema,<br/>offene Fragen<br/>🤖 💻 🚶"]
-        P5["<b>5 · Entscheidung</b><br/>Optionen abwägen,<br/>du entscheidest<br/>🤖 🚶"]
-        P6["<b>6 · Schreiben</b><br/>Text in LaTeX<br/>oder Markdown<br/>🚶 🤖 💻"]
-        P0 --> P1 --> P2 --> P3 --> P4 --> P5 --> P6
-        P5 -. "neue Frage" .-> P1
-        P5 -. "Änderung am Modell" .-> P3
+        subgraph ROW[" "]
+            direction TB
+            P0["<b>0 · Einrichten</b><br/>einmalig:<br/>KI-Regeln klären,<br/>Konten, Claude Code,<br/>Repository,<br/>Prüfliste festlegen<br/>🚶 🤖"]
+            subgraph PH["Ablauf · jeder Kasten führt zur Anleitung"]
+                direction TB
+                P1["<b>1 · Recherche</b><br/>suchen, Treffer notieren,<br/>Volltexte holen<br/>🚶 🤖 💻"]
+                P2["<b>2 · Auswertung</b><br/>jede Arbeit lesen,<br/>Prüfliste durchgehen<br/>🤖 🚶"]
+                P3["<b>3 · Modell</b><br/>eigene Rechnung,<br/>Kernzahlen, Abbildungen<br/>(wahlweise)<br/>🤖 💻 🚶"]
+                P4["<b>4 · Sammeldokumente</b><br/>Ergebnisse je Thema,<br/>offene Fragen<br/>🤖 💻 🚶"]
+                P5["<b>5 · Entscheidung</b><br/>Optionen abwägen,<br/>du entscheidest<br/>🤖 🚶"]
+                P1 --> P2 --> P3 --> P4 --> P5
+                P5 -. "neue Frage" .-> P1
+                P5 -. "Änderung am Modell" .-> P3
+            end
+            P6["<b>6 · Schreiben</b><br/>Text in LaTeX<br/>oder Markdown<br/>🚶 🤖 💻"]
+            P0 --> P1
+            P5 --> P6
+        end
+        subgraph QS["Bei jedem Schritt"]
+            direction TB
+            Q1["<b>Git</b> speichert jeden Stand<br/>mit Datum und Grund<br/>🤖"]
+            Q2["<b>Wächter</b> prüft<br/>vor jedem Speichern<br/>💻"]
+            Q3["<b>KI-Protokoll</b> hält fest,<br/>was die KI getan hat<br/>🤖 🚶"]
+            Q1 ~~~ Q2
+            Q2 ~~~ Q3
+        end
+        ROW -.- QS
     end
-    subgraph QS["Bei jedem Schritt"]
-        direction LR
-        Q1["<b>Git</b> speichert jeden Stand<br/>mit Datum und Grund<br/>🤖"]
-        Q2["<b>Wächter</b> prüft<br/>vor jedem Speichern<br/>💻"]
-        Q3["<b>KI-Protokoll</b> hält fest,<br/>was die KI getan hat<br/>🤖 🚶"]
-        Q1 ~~~ Q2 ~~~ Q3
-    end
-    PH -.- QS
     click P0 "https://github.com/Veit-Kramer-Schoeggl/evidence-to-thesis/blob/main/ablauf/0-einrichten.md" _blank
     click P1 "https://github.com/Veit-Kramer-Schoeggl/evidence-to-thesis/blob/main/ablauf/1-recherche.md" _blank
     click P2 "https://github.com/Veit-Kramer-Schoeggl/evidence-to-thesis/blob/main/ablauf/2-auswertung.md" _blank
@@ -74,12 +84,17 @@ flowchart TB
     click Q1 "https://github.com/Veit-Kramer-Schoeggl/evidence-to-thesis/blob/main/ablauf/bei-jedem-schritt.md" _blank
     click Q2 "https://github.com/Veit-Kramer-Schoeggl/evidence-to-thesis/blob/main/ablauf/bei-jedem-schritt.md" _blank
     click Q3 "https://github.com/Veit-Kramer-Schoeggl/evidence-to-thesis/blob/main/ablauf/bei-jedem-schritt.md" _blank
-    style PH fill:#FDF4FF,stroke:#E879F9,color:#000
-    style QS fill:#F0FDFA,stroke:#2DD4BF,color:#000
-    classDef phase fill:#eef4ff,stroke:#3b5bdb,stroke-width:1.5px,color:#111
-    classDef quer fill:#f8f9fa,stroke:#868e96,color:#111
-    class P0,P1,P2,P3,P4,P5,P6 phase
+    style WRAP fill:#FFFFFF,stroke:#FFFFFF,color:#000
+    style ROW fill:#FFFFFF,stroke:#FFFFFF,color:#000
+    style PH fill:#F4EAEC,stroke:#B89AA4,color:#222
+    style QS fill:#EAF1EE,stroke:#8DAA9E,color:#222
+    classDef phase fill:#E9EEF4,stroke:#7C8DA3,stroke-width:1.5px,color:#222
+    classDef rahmen fill:#F1EFEA,stroke:#9A9484,stroke-width:1.5px,color:#222
+    classDef quer fill:#FFFFFF,stroke:#8A9490,color:#222
+    class P1,P2,P3,P4,P5 phase
+    class P0,P6 rahmen
     class Q1,Q2,Q3 quer
+    linkStyle default stroke:#000000,stroke-width:1.5px
 ```
 
 🚶 machst du selbst · 🤖 erledigt Claude Code für dich · 💻 erledigt ein
